@@ -1,9 +1,48 @@
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useEffect } from "react";
-import { ArrowUp, Mail, Github, ExternalLink, X } from "lucide-react";
+import { ArrowUp, Mail, Github, ExternalLink, X, Globe, Cpu, Layout, Code2, Sparkles, Linkedin } from "lucide-react";
 
 // --- Data ---
-const projects = [
+const webDeployments = [
+  {
+    id: "web-1",
+    title: "Professional Dental Zone & Aesta Aesthetics",
+    image: "https://i.ibb.co/ZpFwQ57X/Pdz-Clinic.png",
+    link: "https://pdzclinic.vercel.app/",
+    category: "Health & Aesthetics",
+    valueStatement: "Integrated Dental & Skincare Patient Acquisition System.",
+    explanation: "A luxury-themed, mobile-responsive landing page designed with a split UI to manage two distinct departments. It features an AI Patient Concierge custom-trained to triage inquiries and explain complex procedures. Integrated with WhatsApp Business API for direct-to-specialist routing and one-tap booking, transforming the premium reputation of the clinic into a high-converting digital platform."
+  },
+  {
+    id: "web-2",
+    title: "Dr. Rahat’s Gynae & Obs Clinic",
+    image: "https://i.ibb.co/VpLR3TNQ/Dr-Rahat.png",
+    link: "https://dr-rahat-s-clinic.vercel.app/",
+    category: "Specialist Health",
+    valueStatement: "Empathetic Digital Front-Door for Maternal Health.",
+    explanation: "Focused on a warm, empathetic UI/UX designed for the sensitive nature of Gynaecology and Obstetrics. Utilizes a Symptom-Aware AI Assistant acting as an intelligent receptionist with strict guardrails to prioritize patient safety and physical consultations. Serves as a centralized digital hub managing doctor information across three major Lahore hospitals."
+  },
+  {
+    id: "web-3",
+    title: "Fitness World Gym ",
+    image: "https://i.ibb.co/xthSVCDc/fitness-Gym.png",
+    link: "https://hamza19-2006.github.io/fitness_world_gym/",
+    category: "Fitness & Community",
+    valueStatement: "Automated Member Engagement & Lead Capture Ecosystem.",
+    explanation: "A dynamic landing page built to convert local Lahore residents with high-energy visual storytelling. Integrates automated \"Lead Magnets\"—capturing potential member data in exchange for a \"Free Trial Pass\". Fosters community through real-time API links to Instagram feeds and WhatsApp groups, transforming passive visitors into active gym members."
+  },
+  {
+    id: "web-4",
+    title: "AI Study Assistant",
+    image: "https://i.ibb.co/MDsJzvCt/Screenshot-2026-04-17-185314.png",
+    link: "https://aistudyassistant.github.io/aistudyassistant/",
+    category: "EdTech & Full-Stack SaaS",
+    valueStatement: "A full-stack pedagogical platform transforming static materials into interactive modules.",
+    explanation: "Built with a Next.js frontend and integrated cloud database architecture to store user chat histories and documents. Implements secure User Authentication and an intelligent File Processing Engine that ingests PDFs, Images, and Audio. Features four distinct AI logic modes (including Socratic Deep Study) powered by Gemini 1.5 Pro for long-context analysis."
+  }
+];
+
+const automationArchitectures = [
   {
     id: 1,
     title: "Autonomous AI Social Media & Client CRM Funnel",
@@ -70,81 +109,158 @@ const projects = [
   }
 ];
 
-// --- Components ---
+// --- Sub-components ---
+
+function SectionHeader({ title, subheadline, icon: Icon }: { title: string, subheadline: string, icon?: any }) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="mb-16"
+    >
+      <div className="flex items-center gap-3 mb-4">
+        {Icon && <Icon className="w-6 h-6 text-blue-400" />}
+        <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white uppercase">{title}</h2>
+      </div>
+      <p className="text-gray-400 text-lg max-w-3xl leading-relaxed">
+        {subheadline}
+      </p>
+    </motion.div>
+  );
+}
+
+interface WebDeploymentCardProps {
+  project: typeof webDeployments[0];
+}
+
+const WebDeploymentCard: React.FC<WebDeploymentCardProps> = ({ project }) => {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -10 }}
+      className="group bg-zinc-900/40 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-500 shadow-2xl"
+    >
+      <div className="relative aspect-video overflow-hidden">
+        <img 
+          src={project.image} 
+          alt={project.title} 
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-80" />
+        <div className="absolute top-4 left-4">
+          <span className="px-3 py-1 bg-blue-600/20 border border-blue-500/30 rounded-full text-[10px] uppercase font-bold tracking-widest text-blue-400 backdrop-blur-md">
+            {project.category}
+          </span>
+        </div>
+      </div>
+      
+      <div className="p-8">
+        <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">{project.title}</h3>
+        <p className="text-blue-400/80 text-sm font-medium mb-4 italic">"{project.valueStatement}"</p>
+        <p className="text-gray-400 text-sm leading-relaxed mb-8 line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
+          {project.explanation}
+        </p>
+        
+        <motion.a 
+          whileHover={{ x: 5 }}
+          href={project.link} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-white font-bold text-sm tracking-widest uppercase pb-1 border-b-2 border-blue-500/50 hover:border-blue-500 transition-all"
+        >
+          Live Site <ExternalLink size={14} />
+        </motion.a>
+      </div>
+    </motion.div>
+  );
+}
+
+// --- Main App Sections ---
 
 function Hero() {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.2, delayChildren: 0.3 },
     },
   };
 
-  const textVariants = {
-    hidden: { opacity: 0, y: 30 },
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { type: "spring", stiffness: 50, damping: 20 }
+      transition: { type: "spring", stiffness: 60, damping: 15 }
     },
   };
 
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center px-6 pt-24 pb-12 relative overflow-hidden bg-black text-white">
-      {/* Background gradients */}
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/20 rounded-full blur-[100px] pointer-events-none" />
+    <section className="min-h-screen flex flex-col justify-center items-center px-6 relative overflow-hidden bg-black">
+      {/* Background elements */}
+      <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
       
       <motion.div 
-        className="max-w-4xl mx-auto text-center z-10"
+        className="max-w-5xl mx-auto text-center z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={textVariants} className="inline-block mb-4 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
-          <span className="text-sm font-medium tracking-wider text-gray-300 uppercase">Muhammad Hamza</span>
+        <motion.div variants={itemVariants} className="inline-block mb-6 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
+          <span className="text-xs font-bold tracking-[0.3em] text-gray-400 uppercase">Muhammad Hamza</span>
         </motion.div>
         
         <motion.h1 
-          variants={textVariants}
-          className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-8 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400"
+          variants={itemVariants}
+          className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-8 leading-[0.9] text-white"
         >
-          Automating the<br />Impossible.
+          Systems Architect <br/>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">& Full-Stack Dev</span>
         </motion.h1>
         
         <motion.p 
-          variants={textVariants}
-          className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed"
+          variants={itemVariants}
+          className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed font-light"
         >
-          I build enterprise-grade AI agents and multi-platform automation systems that run your business while you sleep.
+          I build autonomous AI systems and high-conversion web platforms that scale businesses while you sleep.
         </motion.p>
         
         <motion.div 
-          variants={textVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          variants={itemVariants}
+          className="flex flex-col sm:flex-row items-center justify-center gap-6"
         >
           <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => document.getElementById('architectures')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-8 py-4 w-full sm:w-auto bg-white text-black font-semibold rounded-lg hover:bg-gray-100 transition-colors shadow-[0_0_40px_rgba(255,255,255,0.3)]"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => document.getElementById('web-deployments')?.scrollIntoView({ behavior: 'smooth' })}
+            className="px-10 py-5 w-full sm:w-auto bg-white text-black font-black text-sm uppercase tracking-widest rounded-xl hover:bg-gray-100 transition-all shadow-[0_0_50px_rgba(255,255,255,0.2)]"
           >
-            View My Architectures
+            View Web Deployments
           </motion.button>
           
           <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="px-8 py-4 w-full sm:w-auto bg-transparent text-white font-semibold rounded-lg border border-white/20 hover:bg-white/5 transition-colors"
+            whileHover={{ scale: 1.05, y: -2, backgroundColor: "rgba(255,255,255,0.1)" }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => document.getElementById('automations')?.scrollIntoView({ behavior: 'smooth' })}
+            className="px-10 py-5 w-full sm:w-auto bg-transparent text-white font-black text-sm uppercase tracking-widest rounded-xl border border-white/20 transition-all backdrop-blur-sm"
           >
-            Hire Me
+            View Automation Logic
           </motion.button>
         </motion.div>
+      </motion.div>
+      
+      {/* Scroll indicator */}
+      <motion.div 
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 text-gray-500"
+      >
+        <div className="w-[1px] h-12 bg-gradient-to-b from-blue-500/50 to-transparent mx-auto" />
       </motion.div>
     </section>
   );
@@ -152,207 +268,164 @@ function Hero() {
 
 function About() {
   return (
-    <section id="about" className="py-24 px-6 bg-zinc-950 text-white relative">
-      <motion.div 
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8 }}
-        className="max-w-4xl mx-auto"
-      >
-        <div className="flex flex-col md:flex-row gap-12 items-center">
-          <div className="flex-1">
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-              Student by Day.<br/>
-              <span className="text-gray-400">Systems Architect by Night.</span>
+    <section className="py-24 md:py-32 px-6 bg-zinc-950 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="max-w-4xl">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-8 uppercase tracking-tight">
+              Student by Day. <br/>
+              <span className="text-blue-500">Systems Architect by Night.</span>
             </h2>
-            <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
+            <div className="space-y-6 text-gray-400 text-lg md:text-xl leading-relaxed font-light">
               <p>
-                I am a 19-year-old Computer Science student and self-taught automation developer. While most developers focus on building simple landing pages, I specialize in architecting complex, invisible systems that save businesses thousands of hours.
+                I am a 19-year-old Computer Science student and self-taught developer. While most developers focus on building simple landing pages, I specialize in architecting complex, invisible systems that save businesses thousands of hours, alongside high-converting full-stack web applications.
               </p>
               <p>
-                I bridge the gap between heavy APIs, advanced AI models (OpenAI, Gemini), and core business logic. Whether it's a multi-tenant CRM sync, a web-scraping inventory bot, or a fully autonomous AI sales agent on WhatsApp and Telegram, I don't just write code—I build digital employees.
-              </p>
-              <p className="font-mono text-sm text-gray-400 bg-white/5 p-4 rounded-lg border border-white/10">
-                <span className="text-white font-semibold">Tech Stack:</span> n8n, Make.com, Python, Next.js, Flutter, Advanced Prompt Engineering.
+                I bridge the gap between heavy APIs, advanced AI models (OpenAI, Gemini), and core business logic. My tech stack includes <span className="text-white font-medium">Next.js, n8n, Make.com, Python</span>, and <span className="text-white font-medium">Advanced Prompt Engineering</span>.
               </p>
             </div>
-          </div>
-          
-          <div className="w-full md:w-1/3 aspect-square rounded-2xl overflow-hidden relative border border-white/10 bg-zinc-900 group">
-            {/* Minimalist decorative tech graphic */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity duration-700">
-               <motion.div 
-                 animate={{ rotate: 360 }} 
-                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                 className="w-48 h-48 border border-white/20 rounded-full border-dashed flex items-center justify-center"
-               >
-                 <motion.div 
-                   animate={{ rotate: -360 }} 
-                   transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                   className="w-32 h-32 border border-white/20 rounded-full flex items-center justify-center"
-                 >
-                   <div className="w-16 h-16 bg-white/10 rounded-full backdrop-blur-md border border-white/20" />
-                 </motion.div>
-               </motion.div>
-            </div>
-          </div>
+          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
 
-function ProjectCard({ project, onClick }: { project: typeof projects[0], onClick: () => void }) {
+function WebDeployments() {
   return (
-    <motion.div 
-      layoutId={`project-container-${project.id}`}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ y: -10 }}
-      onClick={onClick}
-      className="group cursor-pointer bg-zinc-900 rounded-xl overflow-hidden border border-white/10 hover:border-white/30 transition-colors flex flex-col h-full"
-    >
-      <div className="relative h-60 overflow-hidden bg-zinc-800">
-        <motion.img 
-          layoutId={`project-image-${project.id}`}
-          src={project.image} 
-          alt={project.title}
-          referrerPolicy="no-referrer"
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+    <section id="web-deployments" className="py-32 px-6 bg-black">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeader 
+          title="Live Client Deployments & SaaS" 
+          subheadline="Transforming businesses through modern, high-conversion web platforms and full-stack applications."
+          icon={Globe}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent opacity-80" />
-      </div>
-      
-      <div className="p-6 flex-1 flex flex-col">
-        <motion.h3 layoutId={`project-title-${project.id}`} className="text-xl font-bold text-white mb-3">
-          {project.title}
-        </motion.h3>
         
-        <p className="text-gray-400 text-sm mb-6 flex-1">
-          {project.brief}
-        </p>
-        
-        <div className="flex flex-wrap gap-2 mt-auto">
-          {project.tags.map(tag => (
-            <span key={tag} className="text-xs font-mono px-2 py-1 bg-white/5 border border-white/10 rounded text-gray-300">
-              {tag}
-            </span>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {webDeployments.map((project) => (
+            <WebDeploymentCard key={project.id} project={project} />
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+interface AutomationCardProps {
+  project: typeof automationArchitectures[0];
+  onClick: () => void;
+}
+
+const AutomationCard: React.FC<AutomationCardProps> = ({ project, onClick }) => {
+  return (
+    <motion.div 
+      layoutId={`automation-card-${project.id}`}
+      whileHover={{ y: -5, scale: 1.02 }}
+      onClick={onClick}
+      className="group cursor-pointer bg-zinc-900/40 border border-white/10 rounded-xl overflow-hidden hover:border-white/30 transition-all shadow-xl"
+    >
+      <div className="aspect-[4/3] overflow-hidden relative bg-zinc-800">
+        <img src={project.image} alt={project.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" referrerPolicy="no-referrer" />
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+           <Layout className="text-white w-10 h-10" />
+        </div>
+        <div className="absolute top-4 left-4">
+          <span className="text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-white text-black rounded">
+            Automation
+          </span>
+        </div>
+      </div>
+      <div className="p-6">
+        <h3 className="text-lg font-bold text-white mb-2 line-clamp-1 group-hover:text-blue-400 transition-colors">{project.title}</h3>
+        <p className="text-gray-500 text-xs line-clamp-2">{project.brief}</p>
       </div>
     </motion.div>
   );
 }
 
-function Architectures() {
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+function Automations() {
+  const [selected, setSelected] = useState<typeof automationArchitectures[0] | null>(null);
 
-  // Lock body scroll when modal is open
   useEffect(() => {
-    if (selectedProject) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [selectedProject]);
+    document.body.style.overflow = selected ? "hidden" : "auto";
+  }, [selected]);
 
   return (
-    <section id="architectures" className="py-24 px-6 bg-black text-white min-h-screen">
+    <section id="automations" className="py-32 px-6 bg-black border-t border-white/5">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Core Architectures</h2>
-          <p className="text-gray-400 text-lg max-w-2xl">
-            A selection of production-ready systems automating across social, CRM, support, and analytics.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {projects.map((project) => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
-              onClick={() => setSelectedProject(project)} 
-            />
+        <SectionHeader 
+          title="Invisible Employees & Automation Logic" 
+          subheadline="Complex AI automation workflows handling business logic, lead qualification, and cross-platform synchronization."
+          icon={Code2}
+        />
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {automationArchitectures.map((project) => (
+            <AutomationCard key={project.id} project={project} onClick={() => setSelected(project)} />
           ))}
         </div>
       </div>
 
       <AnimatePresence>
-        {selectedProject && (
+        {selected && (
           <>
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setSelectedProject(null)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
+              onClick={() => setSelected(null)}
+              className="fixed inset-0 bg-black/95 backdrop-blur-3xl z-[100]"
             />
-            
-            <div className="fixed inset-0 flex items-center justify-center p-4 sm:p-6 z-50 pointer-events-none">
+            <div className="fixed inset-0 flex items-center justify-center p-4 z-[101] pointer-events-none">
               <motion.div 
-                layoutId={`project-container-${selectedProject.id}`}
-                className="bg-zinc-900 border border-white/10 rounded-2xl overflow-hidden w-full max-w-4xl max-h-[90vh] flex flex-col pointer-events-auto"
+                layoutId={`automation-card-${selected.id}`}
+                className="bg-zinc-950 border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col pointer-events-auto shadow-2xl"
               >
-                <div className="relative h-64 sm:h-80 shrink-0">
-                  <motion.img 
-                    layoutId={`project-image-${selectedProject.id}`}
-                    src={selectedProject.image} 
-                    alt={selectedProject.title}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent" />
-                  
-                  <button 
-                    onClick={() => setSelectedProject(null)}
-                    className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/80 backdrop-blur-md rounded-full text-white transition-colors"
-                  >
-                    <X size={20} />
+                <div className="relative h-64 shrink-0">
+                  <img src={selected.image} alt={selected.title} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent" />
+                  <button onClick={() => setSelected(null)} className="absolute top-6 right-6 p-2 bg-black/50 hover:bg-black/80 backdrop-blur-md rounded-full text-white transition-colors">
+                    <X size={24} />
                   </button>
                 </div>
-
-                <div className="p-6 sm:p-10 overflow-y-auto">
-                  <motion.h3 
-                    layoutId={`project-title-${selectedProject.id}`} 
-                    className="text-2xl sm:text-3xl font-bold text-white mb-4"
-                  >
-                    {selectedProject.title}
-                  </motion.h3>
-                  
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {selectedProject.tags.map(tag => (
-                      <span key={tag} className="text-xs font-mono px-3 py-1 bg-white/5 border border-white/10 rounded text-gray-300">
-                        {tag}
-                      </span>
-                    ))}
+                
+                <div className="p-8 sm:p-12 overflow-y-auto">
+                  <div className="mb-8">
+                     <h3 className="text-3xl font-black text-white mb-4 uppercase leading-tight">{selected.title}</h3>
+                     <div className="flex flex-wrap gap-2">
+                        {selected.tags.map(tag => (
+                          <span key={tag} className="text-[10px] font-bold uppercase tracking-widest px-3 py-1 border border-white/10 text-gray-500 rounded-full">
+                            {tag}
+                          </span>
+                        ))}
+                     </div>
                   </div>
-
-                  <div className="space-y-6">
-                    <div>
-                      <h4 className="text-lg font-semibold text-white mb-2 pb-2 border-b border-white/10">The Overview</h4>
-                      <p className="text-gray-300 leading-relaxed text-lg">
-                        {selectedProject.brief}
-                      </p>
+                  
+                  <div className="space-y-12">
+                    <div className="pb-12 border-b border-white/5">
+                      <h4 className="text-xs font-black uppercase tracking-[0.3em] text-blue-500 mb-6">// The Mission</h4>
+                      <p className="text-xl text-gray-300 font-light leading-relaxed">{selected.brief}</p>
                     </div>
                     
                     <div>
-                      <h4 className="text-lg font-semibold text-white mb-2 pb-2 border-b border-white/10">Architecture Breakdown</h4>
-                      <p className="text-gray-400 leading-relaxed whitespace-pre-line">
-                        {selectedProject.fullDetails}
+                      <h4 className="text-xs font-black uppercase tracking-[0.3em] text-blue-500 mb-6">// Architecture Details</h4>
+                      <p className="text-gray-400 leading-relaxed font-light whitespace-pre-line text-lg">
+                        {selected.fullDetails}
                       </p>
                     </div>
 
-                    <div className="pt-8 mt-4 border-t border-white/10 flex justify-end">
+                    <div className="pt-8 flex justify-end">
                       <motion.button 
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => setSelectedProject(null)}
-                        className="px-6 py-3 bg-[#ccff00] text-black font-bold rounded hover:bg-[#bce600] transition-colors shadow-[0_0_20px_rgba(204,255,0,0.15)] flex justify-center items-center"
+                        onClick={() => setSelected(null)}
+                        className="px-8 py-4 bg-[#ccff00] text-black font-black uppercase text-xs tracking-[0.2em] rounded-lg shadow-[0_0_20px_rgba(204,255,0,0.2)]"
                       >
-                        Close Architecture
+                        Close Detail
                       </motion.button>
                     </div>
                   </div>
@@ -368,69 +441,67 @@ function Architectures() {
 
 function Contact() {
   return (
-    <footer id="contact" className="py-24 px-6 bg-zinc-950 text-white relative border-t border-white/10">
+    <footer id="contact" className="py-32 px-6 bg-zinc-950 border-t border-white/5 relative">
       <div className="max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-6">Let's Build Something.</h2>
-          <p className="text-gray-400 text-lg mb-12 max-w-xl mx-auto">
-            Ready to replace manual workflows with autonomous systems? Get in touch to discuss your architecture.
+          <h2 className="text-5xl md:text-8xl font-black text-white mb-8 tracking-tighter uppercase leading-[0.9]">Let's Build <br/> Something.</h2>
+          <p className="text-gray-500 text-lg mb-16 max-w-xl mx-auto font-light">
+            Ready to replace manual workflows with autonomous systems? Get in touch to discuss your next project.
           </p>
           
-          <div className="flex justify-center gap-4 sm:gap-6 mb-16 flex-wrap">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mb-20">
             <motion.a 
-              whileHover={{ y: -5, scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ y: -5, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               href="mailto:muhammad.hamza.noor0@gmail.com"
-              className="flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-white/10 hover:border-white/30 hover:shadow-[0_0_30px_rgba(79,70,229,0.3)] transition-all group"
+              className="flex items-center gap-4 px-10 py-5 rounded-full bg-gradient-to-br from-[#0c1221] to-[#1a1025] border border-white/10 text-white shadow-[0_0_40px_rgba(37,99,235,0.1)] hover:border-blue-500/30 transition-all group"
             >
-              <Mail className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors" />
-              <span className="font-semibold text-white">Email Me</span>
+              <Mail className="w-7 h-7 text-blue-500 group-hover:text-blue-400 transition-colors" />
+              <span className="text-xl font-bold">Email Me</span>
             </motion.a>
             <motion.a 
-              whileHover={{ y: -5, scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ y: -5, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               href="https://github.com/hamza19-2006"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-zinc-800 to-zinc-700 border border-white/10 hover:border-white/30 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-all group"
+              className="flex items-center gap-4 px-10 py-5 rounded-full bg-[#242429] border border-white/10 text-white hover:bg-[#2d2d33] transition-all shadow-xl"
             >
-              <Github className="w-6 h-6 text-gray-300 group-hover:text-white transition-colors" />
-              <span className="font-semibold text-white">GitHub</span>
+              <Github className="w-7 h-7" />
+              <span className="text-xl font-bold">GitHub</span>
             </motion.a>
           </div>
         </motion.div>
         
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} Muhammad Hamza. All rights reserved.
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-[10px] text-gray-600 font-bold uppercase tracking-[0.3em]">
+            © {new Date().getFullYear()} Muhammad Hamza — Systems Architect & Dev
           </p>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="p-4 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors"
+          >
+            <ArrowUp size={20} />
+          </motion.button>
         </div>
       </div>
-      
-      <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="absolute bottom-8 right-8 p-4 rounded-full bg-white border border-transparent hover:bg-gray-200 text-black shadow-lg transition-colors"
-        aria-label="Back to Top"
-      >
-        <ArrowUp className="w-6 h-6" />
-      </motion.button>
     </footer>
   );
 }
 
 export default function App() {
   return (
-    <div className="bg-black min-h-screen text-white font-sans selection:bg-white/30 selection:text-white">
+    <div className="bg-black min-h-screen text-white font-sans selection:bg-blue-500/30 selection:text-white">
       <Hero />
       <About />
-      <Architectures />
+      <WebDeployments />
+      <Automations />
       <Contact />
     </div>
   );
