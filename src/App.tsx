@@ -22,15 +22,7 @@ const webDeployments = [
     valueStatement: "Empathetic Digital Front-Door for Maternal Health.",
     explanation: "Focused on a warm, empathetic UI/UX designed for the sensitive nature of Gynaecology and Obstetrics. Utilizes a Symptom-Aware AI Assistant acting as an intelligent receptionist with strict guardrails to prioritize patient safety and physical consultations. Serves as a centralized digital hub managing doctor information across three major Lahore hospitals."
   },
-  {
-    id: "web-3",
-    title: "Fitness World Gym ",
-    image: "https://i.ibb.co/xthSVCDc/fitness-Gym.png",
-    link: "https://fitness-world-gym-five.vercel.app/",
-    category: "Fitness & Community",
-    valueStatement: "Automated Member Engagement & Lead Capture Ecosystem.",
-    explanation: "A dynamic landing page built to convert local Lahore residents with high-energy visual storytelling. Integrates automated \"Lead Magnets\"—capturing potential member data in exchange for a \"Free Trial Pass\". Fosters community through real-time API links to Instagram feeds and WhatsApp groups, transforming passive visitors into active gym members."
-  },
+
   {
     id: "web-4",
     title: "AI Study Assistant",
