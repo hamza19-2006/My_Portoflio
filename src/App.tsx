@@ -8,7 +8,7 @@ const webDeployments = [
     id: "web-1",
     title: "Professional Dental Zone & Aesta Aesthetics",
     image: "https://i.ibb.co/ZpFwQ57X/Pdz-Clinic.png",
-    link: "https://pdzclinic.vercel.app/",
+    link: "https://dental.clinic.hamza-systems.tech/",
     category: "Health & Aesthetics",
     valueStatement: "Integrated Dental & Skincare Patient Acquisition System.",
     explanation: "A luxury-themed, mobile-responsive landing page designed with a split UI to manage two distinct departments. It features an AI Patient Concierge custom-trained to triage inquiries and explain complex procedures. Integrated with WhatsApp Business API for direct-to-specialist routing and one-tap booking, transforming the premium reputation of the clinic into a high-converting digital platform."
@@ -17,14 +17,14 @@ const webDeployments = [
     id: "web-2",
     title: "Dr. Rahat’s Gynae & Obs Clinic",
     image: "https://i.ibb.co/VpLR3TNQ/Dr-Rahat.png",
-    link: "https://dr-rahat-s-clinic.vercel.app/",
+    link: "https://dental.hamza-systems.tech/",
     category: "Specialist Health",
     valueStatement: "Empathetic Digital Front-Door for Maternal Health.",
     explanation: "Focused on a warm, empathetic UI/UX designed for the sensitive nature of Gynaecology and Obstetrics. Utilizes a Symptom-Aware AI Assistant acting as an intelligent receptionist with strict guardrails to prioritize patient safety and physical consultations. Serves as a centralized digital hub managing doctor information across three major Lahore hospitals."
   },
 
   {
-    id: "web-4",
+    id: "web-3",
     title: "AI Study Assistant",
     image: "https://i.ibb.co/MDsJzvCt/Screenshot-2026-04-17-185314.png",
     link: "https://ai-study-assitant.vercel.app/",
