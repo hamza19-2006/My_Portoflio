@@ -27,7 +27,7 @@ const webDeployments = [
     id: "web-3",
     title: "AI Study Assistant",
     image: "https://i.ibb.co/MDsJzvCt/Screenshot-2026-04-17-185314.png",
-    link: "https://ai-study-assitant.vercel.app/",
+    link: "https://aistudy.hamza-systems.tech/",
     category: "EdTech & Full-Stack SaaS",
     valueStatement: "A full-stack pedagogical platform transforming static materials into interactive modules.",
     explanation: "Built with a Next.js frontend and integrated cloud database architecture to store user chat histories and documents. Implements secure User Authentication and an intelligent File Processing Engine that ingests PDFs, Images, and Audio. Features four distinct AI logic modes (including Socratic Deep Study) powered by Gemini 1.5 Pro for long-context analysis."
