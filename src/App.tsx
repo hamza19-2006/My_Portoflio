@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowUp, Mail, Github, ExternalLink, X, Globe, Cpu, Layout, Code2, Sparkles, Linkedin } from "lucide-react";
+import { ArrowUp, Mail, Github, ExternalLink, X, Globe, Cpu, Layout, Code2, Sparkles, Linkedin, MessageCircle, Send, Loader2 } from "lucide-react";
 
 // --- Data ---
 const webDeployments = [
@@ -8,7 +8,7 @@ const webDeployments = [
     id: "web-1",
     title: "Professional Dental Zone & Aesta Aesthetics",
     image: "https://i.ibb.co/ZpFwQ57X/Pdz-Clinic.png",
-    link: "https://dental.clinic.hamza-systems.tech/",
+    link: "https://pdzclinic.vercel.app/",
     category: "Health & Aesthetics",
     valueStatement: "Integrated Dental & Skincare Patient Acquisition System.",
     explanation: "A luxury-themed, mobile-responsive landing page designed with a split UI to manage two distinct departments. It features an AI Patient Concierge custom-trained to triage inquiries and explain complex procedures. Integrated with WhatsApp Business API for direct-to-specialist routing and one-tap booking, transforming the premium reputation of the clinic into a high-converting digital platform."
@@ -17,17 +17,25 @@ const webDeployments = [
     id: "web-2",
     title: "Dr. Rahat’s Gynae & Obs Clinic",
     image: "https://i.ibb.co/VpLR3TNQ/Dr-Rahat.png",
-    link: "https://dental.hamza-systems.tech/",
+    link: "https://dr-rahat-s-clinic.vercel.app/",
     category: "Specialist Health",
     valueStatement: "Empathetic Digital Front-Door for Maternal Health.",
     explanation: "Focused on a warm, empathetic UI/UX designed for the sensitive nature of Gynaecology and Obstetrics. Utilizes a Symptom-Aware AI Assistant acting as an intelligent receptionist with strict guardrails to prioritize patient safety and physical consultations. Serves as a centralized digital hub managing doctor information across three major Lahore hospitals."
   },
-
   {
     id: "web-3",
+    title: "Fitness World Gym ",
+    image: "https://i.ibb.co/xthSVCDc/fitness-Gym.png",
+    link: "https://hamza19-2006.github.io/fitness_world_gym/",
+    category: "Fitness & Community",
+    valueStatement: "Automated Member Engagement & Lead Capture Ecosystem.",
+    explanation: "A dynamic landing page built to convert local Lahore residents with high-energy visual storytelling. Integrates automated \"Lead Magnets\"—capturing potential member data in exchange for a \"Free Trial Pass\". Fosters community through real-time API links to Instagram feeds and WhatsApp groups, transforming passive visitors into active gym members."
+  },
+  {
+    id: "web-4",
     title: "AI Study Assistant",
     image: "https://i.ibb.co/MDsJzvCt/Screenshot-2026-04-17-185314.png",
-    link: "https://aistudy.hamza-systems.tech/",
+    link: "https://aistudyassistant.github.io/aistudyassistant/",
     category: "EdTech & Full-Stack SaaS",
     valueStatement: "A full-stack pedagogical platform transforming static materials into interactive modules.",
     explanation: "Built with a Next.js frontend and integrated cloud database architecture to store user chat histories and documents. Implements secure User Authentication and an intelligent File Processing Engine that ingests PDFs, Images, and Audio. Features four distinct AI logic modes (including Socratic Deep Study) powered by Gemini 1.5 Pro for long-context analysis."
@@ -487,6 +495,162 @@ function Contact() {
   );
 }
 
+const getOrCreateSenderId = () => {
+  let senderId = sessionStorage.getItem('sender_id');
+  if (!senderId) {
+    senderId = typeof crypto !== 'undefined' && crypto.randomUUID 
+      ? crypto.randomUUID() 
+      : 'id-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now();
+    sessionStorage.setItem('sender_id', senderId);
+  }
+  return senderId;
+};
+
+function ChatWidget() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState<{ role: 'bot' | 'user', text: string }[]>(() => {
+    const saved = sessionStorage.getItem('chat_messages');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error('Failed to parse chat messages from session storage');
+      }
+    }
+    return [{ role: 'bot', text: 'Welcome! To M.Hamza Portfolio, I am his personal assitant ,how can I help you?' }];
+  });
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    sessionStorage.setItem('chat_messages', JSON.stringify(messages));
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const userText = input.trim();
+    setMessages(prev => [...prev, { role: 'user', text: userText }]);
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      const webhookUrl = "https://n8n.hamza-systems.tech/webhook/dm";
+      const senderId = getOrCreateSenderId();
+
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userText, sender_id: senderId })
+      });
+
+      if (!response.ok) throw new Error(`Webhook Error: ${response.statusText}`);
+
+      let data;
+      const textResponse = await response.text();
+      try {
+        data = JSON.parse(textResponse);
+      } catch(e) {
+        data = textResponse;
+      }
+
+      let botReply = "Message received by n8n successfully.";
+      
+      if (typeof data === 'string' && data.trim()) {
+        botReply = data;
+      } else if (Array.isArray(data) && data.length > 0) {
+        // n8n often returns an array, e.g. [ { "output": "..." } ]
+        const first = data[0];
+        botReply = first.output || first.reply || first.response || first.message || first.text || first.content || JSON.stringify(first);
+      } else if (typeof data === 'object' && data !== null) {
+        botReply = data.output || data.reply || data.response || data.message || data.text || data.content || JSON.stringify(data);
+      } else if (data) {
+        botReply = String(data);
+      }
+      
+      setMessages(prev => [...prev, { role: 'bot', text: botReply }]);
+    } catch (error) {
+      console.error("Chat Error:", error);
+      setMessages(prev => [...prev, { role: 'bot', text: "Sorry, I couldn't reach the AI agent at the moment. Please try again later." }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsOpen(true)}
+        className={`fixed bottom-6 right-6 lg:bottom-10 lg:right-10 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white shadow-[0_0_25px_rgba(34,197,94,0.4)] z-50 transition-all ${isOpen ? 'opacity-0 pointer-events-none scale-75' : 'opacity-100 scale-100'}`}
+      >
+        <MessageCircle size={32} />
+      </motion.button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 w-[90vw] sm:w-[400px] h-[550px] max-h-[85vh] bg-zinc-950 border border-white/10 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.8)] z-50 flex flex-col overflow-hidden"
+          >
+            <div className="p-4 bg-zinc-900 border-b border-white/10 flex justify-between items-center shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.8)]" />
+                <span className="font-bold text-white uppercase tracking-wider text-sm">AI Agent</span>
+              </div>
+              <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-white transition-colors">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+              {messages.map((msg, idx) => (
+                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[85%] p-3 px-4 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-blue-600 text-white rounded-br-sm font-medium' : 'bg-zinc-800 text-gray-200 rounded-bl-sm font-light leading-relaxed'}`}>
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-zinc-800 text-gray-400 p-3 px-4 rounded-2xl rounded-bl-sm flex items-center gap-2">
+                    <Loader2 size={16} className="animate-spin" />
+                    <span className="text-xs">Agent is typing...</span>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            <form onSubmit={handleSend} className="p-4 bg-zinc-900 border-t border-white/10 flex gap-2 shrink-0">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Message..."
+                className="flex-1 bg-zinc-800 text-white px-4 py-3 rounded-xl outline-none focus:ring-1 focus:ring-blue-500/50 border border-transparent transition-all text-sm"
+              />
+              <button
+                type="submit"
+                disabled={isLoading || !input.trim()}
+                className="w-12 h-12 shrink-0 bg-blue-600 text-white rounded-xl hover:bg-blue-500 disabled:opacity-50 disabled:bg-zinc-800 transition-colors flex items-center justify-center"
+              >
+                <Send size={18} className="ml-1" />
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
 export default function App() {
   return (
     <div className="bg-black min-h-screen text-white font-sans selection:bg-blue-500/30 selection:text-white">
@@ -495,6 +659,7 @@ export default function App() {
       <WebDeployments />
       <Automations />
       <Contact />
+      <ChatWidget />
     </div>
   );
 }
