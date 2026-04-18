@@ -23,15 +23,6 @@ const webDeployments = [
     explanation: "Focused on a warm, empathetic UI/UX designed for the sensitive nature of Gynaecology and Obstetrics. Utilizes a Symptom-Aware AI Assistant acting as an intelligent receptionist with strict guardrails to prioritize patient safety and physical consultations. Serves as a centralized digital hub managing doctor information across three major Lahore hospitals."
   },
   {
-    id: "web-3",
-    title: "Fitness World Gym ",
-    image: "https://i.ibb.co/xthSVCDc/fitness-Gym.png",
-    link: "https://hamza19-2006.github.io/fitness_world_gym/",
-    category: "Fitness & Community",
-    valueStatement: "Automated Member Engagement & Lead Capture Ecosystem.",
-    explanation: "A dynamic landing page built to convert local Lahore residents with high-energy visual storytelling. Integrates automated \"Lead Magnets\"—capturing potential member data in exchange for a \"Free Trial Pass\". Fosters community through real-time API links to Instagram feeds and WhatsApp groups, transforming passive visitors into active gym members."
-  },
-  {
     id: "web-4",
     title: "AI Study Assistant",
     image: "https://i.ibb.co/MDsJzvCt/Screenshot-2026-04-17-185314.png",
@@ -161,7 +152,7 @@ const WebDeploymentCard: React.FC<WebDeploymentCardProps> = ({ project }) => {
       <div className="p-8">
         <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">{project.title}</h3>
         <p className="text-blue-400/80 text-sm font-medium mb-4 italic">"{project.valueStatement}"</p>
-        <p className="text-gray-400 text-sm leading-relaxed mb-8 line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
+        <p className="text-gray-400 text-sm leading-relaxed mb-8 line-clamp-none md:line-clamp-4 md:group-hover:line-clamp-none transition-all duration-500">
           {project.explanation}
         </p>
         
