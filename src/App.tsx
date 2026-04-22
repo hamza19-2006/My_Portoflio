@@ -212,16 +212,21 @@ function Hero() {
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={itemVariants} className="inline-block mb-6 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
-          <span className="text-xs font-bold tracking-[0.3em] text-gray-400 uppercase">Muhammad Hamza</span>
-        </motion.div>
+        <motion.div variants={itemVariants} className="flex flex-col items-center gap-3 mb-6">
+  <div className="inline-block px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
+    <span className="text-xs font-bold tracking-[0.3em] text-gray-400 uppercase">Muhammad Hamza</span>
+  </div>
+  <div className="inline-block px-4 py-1.5 rounded-full border border-green-500/20 bg-green-500/5 backdrop-blur-md">
+    <span className="text-xs font-bold tracking-[0.2em] text-green-400 uppercase">● Available for Projects</span>
+  </div>
+</motion.div>
         
         <motion.h1 
           variants={itemVariants}
           className="text-5xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-8 leading-[0.9] text-white"
         >
-          Systems Architect <br/>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">& Full-Stack Dev</span>
+          AI Automation Specialist <br/>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">& Web Developer</span>
         </motion.h1>
         
         <motion.p 
@@ -279,14 +284,18 @@ function About() {
           >
             <h2 className="text-4xl md:text-6xl font-black text-white mb-8 uppercase tracking-tight">
               Student by Day. <br/>
-              <span className="text-blue-500">Systems Architect by Night.</span>
+              <span className="text-blue-500">Automation Architect by Night.</span>
             </h2>
             <div className="space-y-6 text-gray-400 text-lg md:text-xl leading-relaxed font-light">
               <p>
-                I am a 19-year-old Computer Science student and self-taught developer. While most developers focus on building simple landing pages, I specialize in architecting complex, invisible systems that save businesses thousands of hours, alongside high-converting full-stack web applications.
+                I am a 19-year-old self-taught developer from Lahore, Pakistan, specializing in AI automation and intelligent workflow systems. I help businesses eliminate manual bottlenecks and save thousands of hours using n8n, Make.com, and custom AI agents.
               </p>
               <p>
-                I bridge the gap between heavy APIs, advanced AI models (OpenAI, Gemini), and core business logic. My tech stack includes <span className="text-white font-medium">Next.js, n8n, Make.com, Python</span>, and <span className="text-white font-medium">Advanced Prompt Engineering</span>.
+                I don't just write code — I architect invisible engines. I connect complex APIs, automate critical decisions, and build systems that run your operations on autopilot.
+              </p>
+              <p className="mt-4 pt-4 border-t border-white/10">
+                <span className="text-white font-medium">Core Stack:</span> N8N &bull; Make.com &bull; Custom AI Agents<br/>
+                &bull; Advanced Prompt Engineering &bull; WhatsApp Automation &bull; Web Development
               </p>
             </div>
           </motion.div>
@@ -493,7 +502,7 @@ function Contact() {
         
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[10px] text-gray-600 font-bold uppercase tracking-[0.3em]">
-            © {new Date().getFullYear()} Muhammad Hamza — Systems Architect & Dev
+            © {new Date().getFullYear()} Muhammad Hamza — Automation Architect & Dev
           </p>
           <motion.button
             whileHover={{ scale: 1.1 }}
