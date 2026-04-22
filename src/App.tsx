@@ -23,6 +23,16 @@ const webDeployments = [
     explanation: "Focused on a warm, empathetic UI/UX designed for the sensitive nature of Gynaecology and Obstetrics. Utilizes a Symptom-Aware AI Assistant acting as an intelligent receptionist with strict guardrails to prioritize patient safety and physical consultations. Serves as a centralized digital hub managing doctor information across three major Lahore hospitals."
   },
   {
+    id: "web-3",
+    title: "University Merit Calculator",
+    image: "https://i.ibb.co/wN2tdNxT/merit.png",
+    link: "https://merit-calculator-by-hamza.streamlit.app/",
+    category: "Calculator",
+    valueStatement: "Streamlined academic utility for dynamic admission forecasting.",
+    explanation: "A lightweight, Python-powered web application built with Streamlit that simplifies the university merit calculation process. Prospective students can input their past academic scores—such as Matriculation, Intermediate, and Entry Test results—to instantly compute their precise aggregate score, helping them make data-driven decisions about their admission chances."
+  },
+  
+  {
     id: "web-4",
     title: "AI Study Assistant",
     image: "https://i.ibb.co/MDsJzvCt/Screenshot-2026-04-17-185314.png",
